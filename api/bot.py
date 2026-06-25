@@ -1,20 +1,13 @@
-from http.server import BaseHTTPRequestHandler
-import json
+from fastapi import FastAPI, Request
 
-class handler(BaseHTTPRequestHandler):
+app = FastAPI()
 
-    def do_POST(self):
+@app.get("/")
+async def home():
+    return {"status": "OK"}
 
-        length = int(self.headers["Content-Length"])
-
-        body = self.rfile.read(length)
-
-        update = json.loads(body)
-
-        print(update)
-
-        self.send_response(200)
-
-        self.end_headers()
-
-        self.wfile.write(b"OK")
+@app.post("/")
+async def telegram(request: Request):
+    update = await request.json()
+    print(update)
+    return {"ok": True}
