@@ -1,31 +1,28 @@
-import json
+from fastapi import FastAPI, Request
 import requests
 
 TOKEN = "1908448673:AAFi1_5jK54SbxstTZu_vtZ7mPLCxehSj18"
 
-def handler(request):
-    try:
-        update = request.json()
+app = FastAPI()
 
-        if "message" in update:
-            chat_id = update["message"]["chat"]["id"]
-            text = update["message"].get("text", "")
+@app.get("/")
+async def home():
+    return {"status": "OK"}
 
-            requests.post(
-                f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-                data={
-                    "chat_id": chat_id,
-                    "text": f"شما گفتید:\n{text}"
-                }
-            )
+@app.post("/")
+async def telegram(request: Request):
+    update = await request.json()
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"ok": True})
-        }
+    if "message" in update:
+        chat_id = update["message"]["chat"]["id"]
+        text = update["message"].get("text", "")
 
-    except Exception as e:
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"error": str(e)})
-        }
+        requests.post(
+            f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+            data={
+                "chat_id": chat_id,
+                "text": "شما گفتید:\n" + text
+            }
+        )
+
+    return {"ok": True}
