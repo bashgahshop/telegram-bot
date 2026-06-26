@@ -1,12 +1,12 @@
 from fastapi import FastAPI, Request
 import requests
 
-TOKEN = "1908448673:AAFi1_5jK54SbxstTZu_vtZ7mPLCxehSj18"
-
 app = FastAPI()
 
+TOKEN = "1908448673:AAFi1_5jK54SbxstTZu_vtZ7mPLCxehSj18"
+
 @app.get("/")
-async def home():
+def home():
     return {"status": "OK"}
 
 @app.post("/")
