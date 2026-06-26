@@ -1,7 +1,7 @@
 import json
 import requests
 
-TOKEN = "YOUR_BOT_TOKEN"
+TOKEN = "1908448673:AAFi1_5jK54SbxstTZu_vtZ7mPLCxehSj18"
 
 def handler(request):
     try:
